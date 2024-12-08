@@ -6,6 +6,8 @@ import Header from './components/Header'
 import { Toaster } from 'react-hot-toast'
 import MyBlogPage from './pages/MyBlogPage'
 import ProtectedRoute from './utils/ProtectRoutes'
+import AllBlogPage from './pages/AllBlogPage'
+import BlogDetailsPage from './pages/BlogDetailsPage'
 
 const App = () => {
   return (
@@ -15,6 +17,8 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<RegisterPage />} />
+          <Route path="/blog/:blogId" element={<BlogDetailsPage />} />
+          <Route path="/all-blogs" element={<AllBlogPage />} />
           <Route path="/my-blogs" element={<ProtectedRoute component={MyBlogPage} />} />
         </Routes>
         <div><Toaster/></div>
