@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -11,8 +11,6 @@ const RegisterPage = () => {
 
   const navigate = useNavigate();
 
-
-
   const handleSubmit = (e) => {
     e.preventDefault();
     const payload = {
@@ -20,7 +18,7 @@ const RegisterPage = () => {
         email: email,
         password: password
     }
-    axios.post("http://localhost:8080/api/user", payload)
+    axios.post("http://localhost:8080/api/user/create", payload)
     .then((res) => {
         toast.success('Account created successfully');
         navigate('/login');

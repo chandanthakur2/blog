@@ -1,8 +1,18 @@
 import React from 'react';
-import { Menu, Home, LogIn } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Menu, Home, LogIn, LogOut, Milestone, LibraryBig } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import useIsLoggedIn from '../hooks/useIsLoggedIn';
 
 const Header = ({ onMenuToggle }) => {
+  const isLoggedIn = useIsLoggedIn();
+  console.log("Is Logged In: ", isLoggedIn);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  }
+  
   return (
     <header className="bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,13 +36,41 @@ const Header = ({ onMenuToggle }) => {
               <Home className="h-5 w-5" />
               <span>Home</span>
             </Link>
-            <Link 
-              to="/login" 
-              className="text-gray-600 hover:text-blue-600 flex items-center space-x-1"
-            >
-              <LogIn className="h-5 w-5" />
-              <span>Login</span>
-            </Link>
+            <>
+              {isLoggedIn ? (
+                <>
+                <Link to="/my-blogs"
+                  className="text-gray-600 hover:text-blue-600 flex items-center space-x-1"
+                >
+                  <LibraryBig className="h-5 w-5" />
+                  <span>My Blogs</span>
+                </Link>
+                <Link onClick={handleLogout}
+                  className="text-gray-600 hover:text-blue-600 flex items-center space-x-1"
+                >
+                  <LogOut className="h-5 w-5" />
+                  <span>Logout</span>
+                </Link>
+                </>
+              ) : (
+                <>
+                <Link 
+                  to="/login" 
+                  className="text-gray-600 hover:text-blue-600 flex items-center space-x-1"
+                >
+                  <LogIn className="h-5 w-5" />
+                  <span>Login</span>
+                </Link>
+                <Link 
+                  to="/login" 
+                  className="text-gray-600 hover:text-blue-600 flex items-center space-x-1"
+                >
+                  <Milestone className="h-5 w-5" />
+                  <span>Register</span>
+                </Link>
+                </>
+              )}
+            </>
           </nav>
 
           {/* Mobile Menu Toggle */}

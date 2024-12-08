@@ -1,14 +1,31 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Login attempt', { email, password });
+    const payload = {
+      email: email,
+      password: password
+    }
+    axios.post("http://localhost:8080/api/user/login", payload)
+    .then((res) => {
+      localStorage.setItem('token', res.data.token);
+      toast.success('Login successful');
+      navigate('/my-blogs');
+    })
+    .catch((err) => {
+      toast.error(err.response.data.error);
+      console.log("Error: ", err.response);
+    })
   };
 
   return (
